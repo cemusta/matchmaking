@@ -36,8 +36,21 @@ namespace matchmaking.web.Controllers
 
         // GET api/queue/AddUser?name=[name]&skill=[0.0-1.0]&remoteness=[0-100]
         [HttpGet("AddUser")]
-        public ActionResult<string> Get([FromQuery]string name, float skill, int remoteness)
+        public ActionResult<string> Get([FromQuery]string name="", double skill=-1, int remoteness=-1)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return BadRequest("name is incorrect");
+            }
+            if (skill > 1 || skill < 0)
+            {
+                return BadRequest("skill index is incorrect");
+            }
+            if (remoteness > 100 || remoteness < 0)
+            {
+                return BadRequest("remoteness index is incorrect");
+            }
+
             var player = new Player() { Name = name, Skill = skill, Remoteness = remoteness };
             _matchmakingContext.Add(player);
             _matchmakingContext.SaveChanges();
