@@ -135,7 +135,7 @@ namespace matchmaking.data
             return false;
         }
 
-        public string TryMatchmaking(MatchMakingContext dbContext)
+        public Match TryMatchmaking(MatchMakingContext dbContext)
         {
             lock (_lock)
             {
@@ -144,7 +144,7 @@ namespace matchmaking.data
                     var players = dbContext.Players.ToList();
                     if (!ShouldStartMatch(players, _matchSize, _timeout))
                     {
-                        return "not enough players in queue";
+                        return null;
                     }
 
                     var selectedPlayers = NearestToAverage(players, _matchSize);
@@ -154,7 +154,7 @@ namespace matchmaking.data
                     dbContext.Matches.Add(newMatch);
                     dbContext.SaveChanges();
 
-                    return $"Match started ({selectedPlayers.Count}), {dbContext.Players.Count()} player(s) in the queue.";
+                    return newMatch;
                 }
             }
         }
@@ -186,8 +186,8 @@ namespace matchmaking.data
                         playerList.Add(GenerateRandomPlayer());
                     }
 
-                        dbContext.Players.AddRange(playerList);
-                        dbContext.SaveChanges();
+                    dbContext.Players.AddRange(playerList);
+                    dbContext.SaveChanges();
               
                     Console.WriteLine($"{numberOfPlayers} new players added, {dbContext.Players.Count()} player(s) in the queue.");
                 }

@@ -1,19 +1,13 @@
 ﻿using matchmaking.data;
-using matchmaking.data.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 
 namespace matchmaking.cli
 {
     class Program
     {
-        static readonly int _timeout = 60;
-        static readonly int _matchSize = 20;
-
-        static readonly MatchMaker matchMaker = new MatchMaker(1234, _matchSize, _timeout);
+        static readonly MatchMaker matchMaker = new MatchMaker(1234, 20, 60);
         static readonly Random random = new Random();
 
         static void Main(string[] args)
@@ -35,7 +29,7 @@ namespace matchmaking.cli
 
                 //matchMaker.TestingAlgorithms(new MatchMakingContext());
 
-                generateTimer = new Timer(GeneratePlayers, 0, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+                generateTimer = new Timer(GeneratePlayers, 0, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0.1));
                 consumeTimer = new Timer(StartMatches, null, TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(0.1));
 
                 Console.ReadLine();
@@ -59,7 +53,11 @@ namespace matchmaking.cli
 
         private static void StartMatches(object state)
         {
-            matchMaker.TryMatchmaking(new MatchMakingContext());
+            var match = matchMaker.TryMatchmaking(new MatchMakingContext());
+            if (match != null)
+            {
+                Console.WriteLine($"Match Started:\n{match}");
+            }
         }
 
 

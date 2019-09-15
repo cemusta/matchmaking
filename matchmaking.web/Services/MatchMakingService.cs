@@ -39,9 +39,12 @@ namespace matchmaking.web.Services
             {
                 var dbcontext = scope.ServiceProvider.GetRequiredService<MatchMakingContext>();
 
-                var result = _matchMaker.TryMatchmaking(dbcontext);
+                var match = _matchMaker.TryMatchmaking(dbcontext);
 
-                _logger.LogInformation(result);
+                if (match != null)
+                {
+                    _logger.LogInformation($"Match Started:\n{match}");
+                }
             }
         }
 
