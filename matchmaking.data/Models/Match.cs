@@ -9,21 +9,21 @@ namespace matchmaking.data.Models
     {
         public Match(IList<Player> players)
         {
-            var dtNow = DateTime.Now;
+            var dtNow = DateTime.UtcNow;
 
             NumberOfPlayers = players.Count();
 
             MinSkill = players.Min(x => x.Skill);
             MaxSkill = players.Max(x => x.Skill);
-            AverageSkill = players.Average(x => x.Skill);
+            AverageSkill = Math.Round(players.Average(x => x.Skill), 3);
 
             MinRemoteness = players.Min(x => x.Remoteness);
             MaxRemoteness = players.Max(x => x.Remoteness);
             AverageRemoteness = players.Average(x => x.Remoteness);
 
-            MinWait = players.Min(x => (dtNow - x.DateTimeAdded).TotalSeconds);
-            MaxWait = players.Max(x => (dtNow - x.DateTimeAdded).TotalSeconds);
-            AvgWait = players.Average(x => (dtNow - x.DateTimeAdded).TotalSeconds);
+            MinWait = Math.Round(players.Min(x => (dtNow - x.DateTimeAdded).TotalSeconds),0);
+            MaxWait = Math.Round(players.Max(x => (dtNow - x.DateTimeAdded).TotalSeconds), 0);
+            AvgWait = Math.Round(players.Average(x => (dtNow - x.DateTimeAdded).TotalSeconds), 0);
 
             DateTimeStarted = dtNow;
         }
@@ -62,7 +62,9 @@ namespace matchmaking.data.Models
 
         public override string ToString()
         {
-            return $"Match Started: {NumberOfPlayers} player \t(S:{AverageSkill}-L:{AverageRemoteness})\tA:{AvgWait} sec";
+            return $"#{Id}\t{NumberOfPlayers} players\tSk:({MinSkill}<>{MaxSkill}|{AverageSkill})\t" +
+                $"Re:({MinRemoteness}<>{MaxRemoteness}|{AverageRemoteness})\t" + 
+                $"Wt:({MinWait}<>{MaxWait}|{AvgWait})";
         }
     }
 }

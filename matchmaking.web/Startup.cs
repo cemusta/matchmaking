@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using matchmaking.data;
+﻿using matchmaking.data;
 using matchmaking.web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace matchmaking.web
 {
@@ -32,7 +24,11 @@ namespace matchmaking.web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton<MatchMaker>(new MatchMaker(123, 20, 60));
+            services.AddSingleton(new MatchMaker(
+                Configuration.GetValue<int>("MatchMaking:RandomSeed"),
+                 Configuration.GetValue<int>("MatchMaking:MatchSize"),
+                  Configuration.GetValue<int>("MatchMaking:Timeout"))
+                );
 
             services.AddHostedService<MatchMakingService>();
         }

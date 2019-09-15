@@ -59,7 +59,7 @@ namespace matchmaking.cli
 
         private static void StartMatches(object state)
         {
-            matchMaker.StartMatch(new MatchMakingContext());
+            matchMaker.TryMatchmaking(new MatchMakingContext());
         }
 
 

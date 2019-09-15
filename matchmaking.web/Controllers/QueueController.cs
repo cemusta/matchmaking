@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using matchmaking.data;
 using matchmaking.data.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -50,9 +48,6 @@ namespace matchmaking.web.Controllers
         public ActionResult<string> AddRandomUser()
         {
             var player = _matchMaker.AddRandomPlayer(_matchmakingContext);
-            //var player = _matchMaker.GenerateRandomPlayer();
-            //_matchmakingContext.Add(player);
-            //_matchmakingContext.SaveChanges();
             return $"added random: {player}";
         }
 
@@ -61,9 +56,10 @@ namespace matchmaking.web.Controllers
         {
             var mCount = _matchmakingContext.Matches.Count();
             var result = $"{mCount} match(es) started\n";
+            result += $"Id\t#ofPlayer\tSkill\t\t\tRemoteness\t\tWaitTime\n";
             foreach (var match in _matchmakingContext.Matches)
             {
-                result += $"{match}\n";
+                result += $"{match.ToString()}\n";
             }
             return result;
         }

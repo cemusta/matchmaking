@@ -77,6 +77,11 @@ namespace matchmaking.data
 
         private IList<Player> NearestToFirst(IList<Player> potentialPlayers, int matchSize = 20)
         {
+            if (potentialPlayers.Count < matchSize)
+            {
+                matchSize = potentialPlayers.Count;
+            }
+
             Player firstPlayer = potentialPlayers.OrderBy(x=>x.DateTimeAdded).First();
             var selectedPlayers = potentialPlayers.OrderBy(x => x.GetDistance(firstPlayer)).Take(matchSize).ToList();
             Console.WriteLine($"Overall fitness is: {CalculateDistance(selectedPlayers)}");
@@ -85,6 +90,10 @@ namespace matchmaking.data
 
         private IList<Player> NearestToAverage(IList<Player> potentialPlayers, int matchSize = 20)
         {
+            if (potentialPlayers.Count < matchSize)
+            {
+                matchSize = potentialPlayers.Count;
+            }
 
             Player firstPlayer = potentialPlayers.OrderBy(x => x.DateTimeAdded).First();
             IList<Player> selectedPlayers = new List<Player> {firstPlayer};
@@ -106,19 +115,27 @@ namespace matchmaking.data
 
         private bool ShouldStartMatch(IList<Player> players, int matchSize = 20, int timeout = 60)
         {
+            if(!players.Any())
+            {
+                return false;
+            }
+
             if(players.Count > (matchSize * 2))
             {
                 return true;
             }
    
-            //int avgWait = (int)players.Average(x => (DateTime.Now - x.DateTimeAdded).TotalSeconds);
-
-            // TODO: implement timeout based start.
+            int longestWait = (int)players.Max(x => (DateTime.UtcNow - x.DateTimeAdded).TotalSeconds);
+            if(longestWait > timeout)
+            {
+                Console.WriteLine($"staring a new game due to long wait time (>{timeout}secs)");
+                return true;
+            }
 
             return false;
         }
 
-        public void StartMatch(MatchMakingContext dbContext)
+        public string TryMatchmaking(MatchMakingContext dbContext)
         {
             lock (_lock)
             {
@@ -127,18 +144,17 @@ namespace matchmaking.data
                     var players = dbContext.Players.ToList();
                     if (!ShouldStartMatch(players, _matchSize, _timeout))
                     {
-                        return;
+                        return "not enough players in queue";
                     }
 
                     var selectedPlayers = NearestToAverage(players, _matchSize);
                     var newMatch = new Match(selectedPlayers);
 
-                        dbContext.Players.RemoveRange(selectedPlayers);
-                        dbContext.Matches.Add(newMatch);
-                        dbContext.SaveChanges();
-           
+                    dbContext.Players.RemoveRange(selectedPlayers);
+                    dbContext.Matches.Add(newMatch);
+                    dbContext.SaveChanges();
 
-                    Console.WriteLine($"Match started ({selectedPlayers.Count}), {dbContext.Players.Count()} player(s) in the queue.");
+                    return $"Match started ({selectedPlayers.Count}), {dbContext.Players.Count()} player(s) in the queue.";
                 }
             }
         }
