@@ -4,6 +4,8 @@ Basic player grouping (matchmaking) implementation using .net core 2.2 as web ap
 
 This sample uses EF and local Sqlite for simplicity but in theory it can easily run with other EF targets as well.
 
+Cli app deletes previous sqlite db on start for fresh start while Web app keeps the db file.
+
 ## CLI app
 
 Cli app is for testing matchmaking algorithms via random feed of users. It creates 0-5 random player every 0.1 seconds and checks if a game is ready to started.
@@ -19,7 +21,7 @@ dotnet run
 
 Web app has a single controller for input output needs and starts a background task that implements similar matchmaking as cli tool.
 
-In order to start web app just run dotnet restore and run inside `matchmaker.cli` folder:
+In order to start web app just run dotnet restore and run inside `matchmaker.web` folder:
 
 ```shell
 dotnet restore
