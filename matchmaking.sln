@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "matchmaking.web", "matchmaking.web\matchmaking.web.csproj", "{74CE2A53-6196-4F5A-9503-33AC053A6BFB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "matchmaking.cli", "matchmaking.cli\matchmaking.cli.csproj", "{50ACCD6D-090B-49AB-8542-1C84505B12CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "matchmaking.data", "matchmaking.data\matchmaking.data.csproj", "{4ACB6CA5-6580-4EEE-B76D-046AC00CE7D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74CE2A53-6196-4F5A-9503-33AC053A6BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74CE2A53-6196-4F5A-9503-33AC053A6BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74CE2A53-6196-4F5A-9503-33AC053A6BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74CE2A53-6196-4F5A-9503-33AC053A6BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50ACCD6D-090B-49AB-8542-1C84505B12CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50ACCD6D-090B-49AB-8542-1C84505B12CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50ACCD6D-090B-49AB-8542-1C84505B12CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50ACCD6D-090B-49AB-8542-1C84505B12CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ACB6CA5-6580-4EEE-B76D-046AC00CE7D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ACB6CA5-6580-4EEE-B76D-046AC00CE7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ACB6CA5-6580-4EEE-B76D-046AC00CE7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ACB6CA5-6580-4EEE-B76D-046AC00CE7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63892EEA-6D1E-498C-A340-CF8AD534FC4C}
+	EndGlobalSection
+EndGlobal

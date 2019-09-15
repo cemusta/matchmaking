@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "matchmaking.cli": {
+      "commandName": "Project"
+    }
+  }
+}
