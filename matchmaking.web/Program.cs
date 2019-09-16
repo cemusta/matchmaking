@@ -16,7 +16,9 @@ namespace matchmaking.web
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateWebHostBuilder(args)
+                .UseKestrel()
+                .Build();
 
             using (var scope = host.Services.CreateScope())
             {

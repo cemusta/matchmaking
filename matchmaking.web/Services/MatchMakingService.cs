@@ -33,8 +33,6 @@ namespace matchmaking.web.Services
 
         private void DoWork(object state)
         {
-            _logger.LogInformation("Timed Background Service is working.");
-
             using (var scope = _services.CreateScope())
             {
                 var dbcontext = scope.ServiceProvider.GetRequiredService<MatchMakingContext>();
